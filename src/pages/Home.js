@@ -1,39 +1,56 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Home = () => {
-  const posts = [
-    {
-      id: 1,
-      title: 'Lorem ipsum dolor sit amet.',
-      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
-      img: 'https://images.pexels.com/photos/1591056/pexels-photo-1591056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: 2,
-      title: 'Lorem ipsum dolor sit amet.',
-      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
-      img: 'https://images.pexels.com/photos/806609/pexels-photo-806609.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: 3,
-      title: 'Lorem ipsum dolor sit amet.',
-      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
-      img: 'https://images.pexels.com/photos/374557/pexels-photo-374557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: 4,
-      title: 'Lorem ipsum dolor sit amet.',
-      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
-      img: 'https://images.pexels.com/photos/7984875/pexels-photo-7984875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: 5,
-      title: 'Lorem ipsum dolor sit amet.',
-      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
-      img: 'https://images.pexels.com/photos/1756006/pexels-photo-1756006.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-  ];
+  const [posts, setPosts] = useState([]);
+
+  const cat = useLocation().search;
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get(`/posts${cat}`);
+        setPosts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchPosts();
+  }, [cat]);
+  // const posts = [
+  //   {
+  //     id: 1,
+  //     title: 'Lorem ipsum dolor sit amet.',
+  //     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
+  //     img: 'https://images.pexels.com/photos/1591056/pexels-photo-1591056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Lorem ipsum dolor sit amet.',
+  //     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
+  //     img: 'https://images.pexels.com/photos/806609/pexels-photo-806609.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Lorem ipsum dolor sit amet.',
+  //     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
+  //     img: 'https://images.pexels.com/photos/374557/pexels-photo-374557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Lorem ipsum dolor sit amet.',
+  //     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
+  //     img: 'https://images.pexels.com/photos/7984875/pexels-photo-7984875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'Lorem ipsum dolor sit amet.',
+  //     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea cumque doloribus dolor accusantium natus quae possimus sapiente deleniti voluptas fugiat.',
+  //     img: 'https://images.pexels.com/photos/1756006/pexels-photo-1756006.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  //   },
+  // ];
 
   return (
     <div className='home'>
