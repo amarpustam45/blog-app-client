@@ -2,27 +2,50 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const Write = () => {
-  const [value, setValue] = useState('');
-  const [title, setTitle] = useState('');
-  const [cat, setCat] = useState('');
+  const state = useLocation().state;
+  const [value, setValue] = useState(state?.desc || '');
+  const [title, setTitle] = useState(state?.title || '');
+  const [cat, setCat] = useState(state?.category || '');
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const upload = async () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
       const res = await axios.post('/upload', formData);
-      // console.log(res);
+      return res.data;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    upload();
+    const imgUrl = await upload();
+    try {
+      state
+        ? await axios.put(`/posts/${state.id}`, {
+            title,
+            desc: value,
+            cat,
+            img: file ? imgUrl : '',
+          })
+        : await axios.post(`/posts/`, {
+            title,
+            desc: value,
+            cat,
+            img: file ? imgUrl : '',
+            date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+          });
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -31,6 +54,7 @@ const Write = () => {
         <input
           type='text'
           placeholder='Title'
+          value={title}
           name='title'
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -74,6 +98,7 @@ const Write = () => {
           <div className='radioButton'>
             <input
               type='radio'
+              checked={cat === 'art'}
               name='cat'
               value='art'
               id='art'
@@ -84,6 +109,7 @@ const Write = () => {
           <div className='radioButton'>
             <input
               type='radio'
+              checked={cat === 'technology'}
               name='cat'
               value='technology'
               id='technology'
@@ -94,6 +120,7 @@ const Write = () => {
           <div className='radioButton'>
             <input
               type='radio'
+              checked={cat === 'science'}
               name='cat'
               value='science'
               id='science'
@@ -104,6 +131,7 @@ const Write = () => {
           <div className='radioButton'>
             <input
               type='radio'
+              checked={cat === 'cinema'}
               name='cat'
               value='cinema'
               id='cinema'
@@ -114,6 +142,7 @@ const Write = () => {
           <div className='radioButton'>
             <input
               type='radio'
+              checked={cat === 'design'}
               name='cat'
               value='design'
               id='design'
@@ -124,6 +153,7 @@ const Write = () => {
           <div className='radioButton'>
             <input
               type='radio'
+              checked={cat === 'food'}
               name='cat'
               value='food'
               id='food'
