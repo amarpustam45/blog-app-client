@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Image } from 'cloudinary-react';
 import axios from 'axios';
 
 const Home = () => {
@@ -31,14 +32,21 @@ const Home = () => {
         {posts.map((post) => (
           <div className='post' key={post.id}>
             <div className='img'>
-              <img src={`/upload/${post.img}`} alt={post.title} />
+              <Image
+                publicId={post.img}
+                cloud_name='amarpustam'
+                secure='true'
+                alt={post.title}
+                crop='fill'
+                className='cloud-image'
+              />
             </div>
             <div className='content'>
-              <Link className='link' to={`/post/${post.id}`}>
-                <h1>{post.title}</h1>
-              </Link>
+              <h1>{post.title}</h1>
               {getText(post.desc)}
-              <button>Read More</button>
+              <Link className='link' to={`/post/${post.id}`}>
+                <button>Read More</button>
+              </Link>
             </div>
           </div>
         ))}

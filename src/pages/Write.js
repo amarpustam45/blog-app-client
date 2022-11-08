@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 const Write = () => {
@@ -10,41 +10,55 @@ const Write = () => {
   const [value, setValue] = useState(state?.desc || '');
   const [title, setTitle] = useState(state?.title || '');
   const [cat, setCat] = useState(state?.category || '');
-  const [file, setFile] = useState(null);
+  const [previewSource, setPreviewSource] = useState(null);
   const navigate = useNavigate();
 
-  const upload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await axios.post('/upload', formData);
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
+  const handleFile = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = await upload();
+    if (!previewSource) return;
+    const imgUrl = await uploadImage(previewSource);
+    console.log(imgUrl);
     try {
       state
         ? await axios.put(`/posts/${state.id}`, {
             title,
             desc: value,
             cat,
-            img: file ? imgUrl : '',
+            img: previewSource ? imgUrl : '',
           })
         : await axios.post(`/posts/`, {
             title,
             desc: value,
             cat,
-            img: file ? imgUrl : '',
+            img: previewSource ? imgUrl : '',
             date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
           });
       navigate('/');
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const uploadImage = async (base64Image) => {
+    try {
+      const data = JSON.stringify(base64Image);
+      const res = await axios.post('/uploadCloud', { data });
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data);
     }
   };
 
@@ -82,8 +96,9 @@ const Write = () => {
             id='file'
             style={{ display: 'none' }}
             name='file'
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleFile}
           />
+          {previewSource && <img src={previewSource} alt='' />}
           <label className='file' htmlFor='file'>
             Upload Image
           </label>

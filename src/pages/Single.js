@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Menu from '../components/Menu';
 import moment from 'moment';
 import { AuthContext } from '../context/authContext';
+import { Image } from 'cloudinary-react';
 
 const Single = () => {
   const [post, setPost] = useState([]);
@@ -46,7 +47,14 @@ const Single = () => {
   return (
     <div className='single'>
       <div className='content'>
-        <img src={`/upload/${post?.img}`} alt='' />
+        <Image
+          publicId={post.img}
+          cloud_name='amarpustam'
+          secure='true'
+          alt={post.title}
+          crop='fill'
+          className='cloud-image'
+        />
 
         <div className='user'>
           {post.userimg && <img src={post.userimg} alt='' />}

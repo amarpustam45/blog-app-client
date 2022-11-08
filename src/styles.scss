@@ -14,7 +14,7 @@ $lightGreen: #b9e7e7;
   justify-content: center;
 
   .container {
-    width: 1024px;
+    width: 100%;
 
     .link {
       text-decoration: none;
@@ -74,6 +74,9 @@ $lightGreen: #b9e7e7;
 
     //NAVBAR
     .navbar {
+      width: 1024px;
+      margin: auto;
+
       .container {
         padding: 10px 0;
         display: flex;
@@ -122,6 +125,8 @@ $lightGreen: #b9e7e7;
 
     //FOOTER
     footer {
+      width: 1024px;
+      margin: auto;
       margin-top: 100px;
       padding: 20px;
       background-color: $lightGreen;
@@ -137,6 +142,9 @@ $lightGreen: #b9e7e7;
 
     //HOME
     .home {
+      width: 1024px;
+      margin: auto;
+
       .posts {
         margin-top: 50px;
         display: flex;
@@ -166,7 +174,7 @@ $lightGreen: #b9e7e7;
               z-index: -1;
             }
 
-            img {
+            .cloud-image {
               width: 100%;
               max-height: 400px;
               object-fit: cover;
@@ -210,6 +218,8 @@ $lightGreen: #b9e7e7;
 
     //SINGLE PAGE
     .single {
+      width: 1024px;
+      margin: auto;
       display: flex;
       gap: 50px;
 
@@ -364,6 +374,7 @@ $lightGreen: #b9e7e7;
           justify-content: space-between;
           font-size: 12px;
           color: #555;
+          position: relative;
 
           h1 {
             font-size: 20px;
@@ -372,6 +383,13 @@ $lightGreen: #b9e7e7;
           .file {
             text-decoration: underline;
             cursor: pointer;
+          }
+
+          img {
+            width: 150px;
+            position: absolute;
+            top: 3px;
+            right: 3px;
           }
 
           .buttons {

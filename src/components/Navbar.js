@@ -41,11 +41,9 @@ const Navbar = () => {
               Login
             </Link>
           )}
-          <span className='write'>
-            <Link className='link' to='/write'>
-              Write
-            </Link>
-          </span>
+          <Link className='link' to='/write'>
+            <span className='write'>Write</span>
+          </Link>
         </div>
       </div>
     </div>
