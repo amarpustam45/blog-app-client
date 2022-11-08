@@ -56,7 +56,7 @@ const Write = () => {
   const uploadImage = async (base64Image) => {
     try {
       const data = JSON.stringify(base64Image);
-      const res = await axios.post('/uploadCloud', { data });
+      const res = await axios.post(`${API_URL}/uploadCloud`, { data });
       return res.data;
     } catch (error) {
       console.log(error.response.data);
