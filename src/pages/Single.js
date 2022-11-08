@@ -7,6 +7,7 @@ import Menu from '../components/Menu';
 import moment from 'moment';
 import { AuthContext } from '../context/authContext';
 import { Image } from 'cloudinary-react';
+import { API_URL } from '../util/API';
 
 const Single = () => {
   const [post, setPost] = useState([]);
@@ -20,7 +21,7 @@ const Single = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`/posts/${postID}`);
+        const res = await axios.get(`${API_URL}/posts/${postID}`);
         setPost(res.data);
       } catch (error) {
         console.log(error);
@@ -32,7 +33,7 @@ const Single = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${postID}`);
+      await axios.delete(`${API_URL}/posts/${postID}`);
       navigate('/');
     } catch (error) {
       console.log(error);

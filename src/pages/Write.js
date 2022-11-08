@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { API_URL } from '../util/API';
 
 const Write = () => {
   const state = useLocation().state;
@@ -33,13 +34,13 @@ const Write = () => {
     console.log(imgUrl);
     try {
       state
-        ? await axios.put(`/posts/${state.id}`, {
+        ? await axios.put(`${API_URL}/posts/${state.id}`, {
             title,
             desc: value,
             cat,
             img: previewSource ? imgUrl : '',
           })
-        : await axios.post(`/posts/`, {
+        : await axios.post(`${API_URL}/posts/`, {
             title,
             desc: value,
             cat,

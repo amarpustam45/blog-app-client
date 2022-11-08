@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Image } from 'cloudinary-react';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../util/API';
 
 const Menu = ({ cat }) => {
   const [posts, setPosts] = useState([]);
@@ -9,7 +10,7 @@ const Menu = ({ cat }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`/posts/?cat=${cat}`);
+        const res = await axios.get(`${API_URL}/posts/?cat=${cat}`);
         setPosts(res.data);
       } catch (error) {
         console.log(error);

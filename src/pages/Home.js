@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 import axios from 'axios';
+import { API_URL } from '../util/API';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -11,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`/posts${cat}`);
+        const res = await axios.get(`${API_URL}/posts${cat}`);
         setPosts(res.data);
       } catch (error) {
         console.log(error);
