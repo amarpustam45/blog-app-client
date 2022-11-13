@@ -63,17 +63,19 @@ const Single = () => {
             <span>{post.username}</span>
             <p>posted {moment(post.date).fromNow()}</p>
           </div>
-          {currentUser.username === post.username && (
-            <div className='edit'>
-              <Link to={`/write?edit=2`} state={post}>
-                <AiOutlineEdit className='editButton' />
-              </Link>
-              <AiOutlineDelete
-                className='editButton delete'
-                onClick={handleDelete}
-              />
-            </div>
-          )}
+          {currentUser
+            ? currentUser.username === post.username && (
+                <div className='edit'>
+                  <Link to={`/write?edit=2`} state={post}>
+                    <AiOutlineEdit className='editButton' />
+                  </Link>
+                  <AiOutlineDelete
+                    className='editButton delete'
+                    onClick={handleDelete}
+                  />
+                </div>
+              )
+            : ''}
         </div>
 
         <h1>{post.title}</h1>

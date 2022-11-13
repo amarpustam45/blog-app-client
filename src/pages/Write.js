@@ -31,22 +31,39 @@ const Write = () => {
     e.preventDefault();
     if (!previewSource) return;
     const imgUrl = await uploadImage(previewSource);
-    console.log(imgUrl);
     try {
       state
-        ? await axios.put(`${API_URL}/posts/${state.id}`, {
-            title,
-            desc: value,
-            cat,
-            img: previewSource ? imgUrl : '',
-          })
-        : await axios.post(`${API_URL}/posts/`, {
-            title,
-            desc: value,
-            cat,
-            img: previewSource ? imgUrl : '',
-            date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-          });
+        ? await axios.put(
+            `${API_URL}/posts/${state.id}`,
+            {
+              title,
+              desc: value,
+              cat,
+              img: previewSource ? imgUrl : '',
+            },
+            {
+              withCredentials: true,
+              headers: {
+                Accept: 'application/json',
+              },
+            }
+          )
+        : await axios.post(
+            `${API_URL}/posts/`,
+            {
+              title,
+              desc: value,
+              cat,
+              img: previewSource ? imgUrl : '',
+              date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+            },
+            {
+              withCredentials: true,
+              headers: {
+                Accept: 'application/json',
+              },
+            }
+          );
       navigate('/');
     } catch (error) {
       console.log(error);

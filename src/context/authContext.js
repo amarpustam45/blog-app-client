@@ -12,12 +12,20 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (inputs) => {
     const res = await axios.post(`${API_URL}/auth/login`, inputs, {
       withCredentials: true,
+      headers: {
+        Accept: 'application/json',
+      },
     });
     setCurrentUser(res.data);
   };
 
-  const logout = async (inputs) => {
-    await axios.post(`${API_URL}/auth/logout`);
+  const logout = async () => {
+    await axios.get(`${API_URL}/auth/logout`, {
+      withCredentials: true,
+      headers: {
+        Accept: 'application/json',
+      },
+    });
     setCurrentUser(null);
   };
 
