@@ -44,7 +44,7 @@ const Home = () => {
             </div>
             <div className='content'>
               <h1>{post.title}</h1>
-              {getText(post.desc)}
+              <p>{getText(post.desc).substring(0, 100)}...</p>
               <Link className='link' to={`/post/${post.id}`}>
                 <button>Read More</button>
               </Link>
